@@ -28,7 +28,7 @@ public class LoginConfig {
         ConfigGetService（注入配置）
         LoginResultService（登陆结果的回调，用作记登陆日志等）
         SecurityService（校验账号密码正确性）
-	AuthorizedUser（可以是跟你数据库用户表映射的类）
+        AuthorizedUser（可以是跟你数据库用户表映射的类）
 	
 	
 		
