@@ -10,6 +10,7 @@
             <version>${latest.version}</version>
         </dependency>
 	[最新版本号点这里](https://mvnrepository.com/artifact/org.njgzr/security)
+	<a href="https://mvnrepository.com/artifact/org.njgzr/security">最新版本号点这里</a>
 ## 使用
    ### 第一步
         实现3个接口
