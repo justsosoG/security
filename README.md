@@ -9,17 +9,24 @@
             <artifactId>security</artifactId>
             <version>${latest.version}</version>
         </dependency>
-	[最新版本号点这里](https://mvnrepository.com/artifact/org.njgzr/security)
-	<a href="https://mvnrepository.com/artifact/org.njgzr/security">最新版本号点这里</a>
+[最新版本号点这里](https://mvnrepository.com/artifact/org.njgzr/security)
 ## 使用
    ### 第一步
-        实现3个接口
+        新建配置类并添加注解，如：
+```java
+		@EnableNjgzrSecurity
+		@Configuration
+		public class LoginConfig {
+			
+		}
+```
+		
+   ### 第二步
+        实现4个接口
         ConfigGetService（注入配置）
         LoginResultService（登陆结果的回调，用作记登陆日志等）
         SecurityService（校验账号密码正确性）
-        
-        
+	AuthorizedUser（可以是跟你数据库用户表映射的类）
 	
 	
-        
-        
+		
