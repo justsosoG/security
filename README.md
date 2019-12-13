@@ -3,7 +3,7 @@
 # 快速开始
 [![Maven Central](https://camo.githubusercontent.com/e7cacdfa1e3b28c8d69fe23418364c62c354ba48/68747470733a2f2f6d6176656e2d6261646765732e6865726f6b756170702e636f6d2f6d6176656e2d63656e7472616c2f636f6d2e6769746875622e686f7562622f73656e7369746976652f62616467652e737667 "Maven Central")](https://mvnrepository.com/artifact/org.njgzr/security)
 ## maven 导入
-        这里以当下流行的spring boot作为例子
+        这里以当下流行的spring boot作为例子，以下示例代码以0.0.2版本为例
 ```xml
 <dependency>
 	<groupId>org.njgzr</groupId>
