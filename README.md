@@ -57,12 +57,12 @@ public class ServiceImpl implements ConfigGetService,LoginResultService,Security
 	public AuthorizedUser findByPrincipal(Object principal) {
 		// 开发时，这里应该从数据库读取，参数principal为登录名
 		if (principal instanceof String) {
-			
+
 			User user = userService.findByLoginName((String) principal);// 本地账号
 			if (user == null)
 				return null;
 
-			AuthorizedUserInfo info = new AuthorizedUserInfo();
+			AuthorizedUserInfo info = new AuthorizedUserInfo();//这里的AuthorizedUserInfo实现了AuthorizedUser接口
 			Long orgid = user.getOrganizationId();
 			info.setUploadUrl(user.getUploadUrl());
 			info.setDisplayName(user.getDisplayName());
@@ -75,6 +75,8 @@ public class ServiceImpl implements ConfigGetService,LoginResultService,Security
 			info.setAddress(user.getAddress());
 			log.info(info.toString());
 			return info;
+			// 这里的info会返回给前端，
+			// 后端也可以使用AuthorizedUserInfo info  = (AuthorizedUserInfo) SecurityUtil.getCurrentUser();来获取
 		}
 		return null;
 	}
@@ -259,6 +261,10 @@ public class ServiceImpl implements ConfigGetService,LoginResultService,Security
 ```java
 @Setter @ToString @Getter
 public class AuthorizedUserInfo implements AuthorizedUser {
+	
+	// 登录成功后你可以使用AuthorizedUserInfo o  = (AuthorizedUserInfo) SecurityUtil.getCurrentUser();
+	// 来获取当前登录的用户信息，所以这里你可以任意加你需要的字段在里面，比如我这里的ip等等；
+	// 同时登陆成功后，这些字段会同样返回给前端。
 	
 	private Long id;
 	
