@@ -26,12 +26,24 @@
 [最新版本号点这里](https://mvnrepository.com/artifact/org.njgzr/security)
 ## 使用
 ### 第一步
-        新建配置类并添加注解，如：
+新建配置类并添加注解，如：
 ```java
 @EnableEasyShiro
 @Configuration
 public class LoginConfig {
 	
+}
+```
+如使用的是springboot，只需在启动类上加上该注解：
+```java
+@SpringBootApplication
+@EnableEasyShiro
+public class Demo2Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Demo2Application.class, args);
+	}
+
 }
 ```
 		
