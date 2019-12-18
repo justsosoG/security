@@ -1,17 +1,16 @@
 # 项目介绍
-        该项目帮助开发者快速，简单的，使用0配置，就可以集成shiro框架。
-
-# 已经有的特性
-##### 1、自定义登录接口地址；
+该项目帮助开发者快速，简单的，使用0配置，就可以集成shiro框架。
+# 特性
+###### 1、自定义登录接口地址；
 ###### 2、自定义登录提交的参数名称；
-##### 3、自定义免认证接口（不需要登录就可以访问的接口）；
-##### 4、是否开启验证码；
-##### 5、5种验证码格式（除中文不能用，3种可选）png，gif，算术题，字体为系统随机，暂不支持字体的自定义；
-##### 6、可以选择每次登陆都校验验证码，也可以在该账号连续登录失败多少次后自动开启验证；
-##### 7、登录成功后采用发放令牌的方式，每次调用被保护的接口时只需在header中携带票据即可。（header中的票据字段支持自定义，默认为token）；
-##### 8、登录事件均有回调（成功、失败、登出）；
-##### 9、同一账号同时登陆的个数可控；
-##### 10、令牌过期后1分钟内的请求仍被允许，并且会自动发放新的令牌。
+###### 3、自定义免认证接口（不需要登录就可以访问的接口）；
+###### 4、是否开启验证码；
+###### 5、5种验证码格式（除中文不能用，3种可选）png，gif，算术题，字体为系统随机，暂不支持字体的自定义；
+###### 6、可以选择每次登陆都校验验证码，也可以在该账号连续登录失败多少次后自动开启验证；
+###### 7、登录成功后采用发放令牌的方式，每次调用被保护的接口时只需在header中携带票据即可。（header中的票据字段支持自定义，默认为token）；
+###### 8、登录事件均有回调（成功、失败、登出）；
+###### 9、同一账号同时登陆的个数可控；
+###### 10、令牌过期后1分钟内的请求仍被允许，并且会自动发放新的令牌。
 
 # 快速开始
 [![Maven Central](https://camo.githubusercontent.com/e7cacdfa1e3b28c8d69fe23418364c62c354ba48/68747470733a2f2f6d6176656e2d6261646765732e6865726f6b756170702e636f6d2f6d6176656e2d63656e7472616c2f636f6d2e6769746875622e686f7562622f73656e7369746976652f62616467652e737667 "Maven Central")](https://mvnrepository.com/artifact/org.njgzr/security)
@@ -58,7 +57,7 @@ public class ServiceImpl implements ConfigGetService,LoginResultService,Security
 	public AuthorizedUser findByPrincipal(Object principal) {
 		// 开发时，这里应该从数据库读取，参数principal为登录名
 		if (principal instanceof String) {
-
+			
 			User user = userService.findByLoginName((String) principal);// 本地账号
 			if (user == null)
 				return null;
@@ -302,21 +301,42 @@ public class AuthorizedUserInfo implements AuthorizedUser {
 }
 ```
 ### 第三步
-到这里，你就可以调用/login接口进行登陆操作，
-参数为username和password两个，header中可以添加teminal，来标识你是浏览器、app应用、pc端应用，该字段影响下发token的有效时间
-提交方式为post，contentType为application/json或application/x-www-form-urlencoded两种方式。
-请求成功后会在boday中返回登陆信息，response headers中返回token值，同时会把token写入cookie中。
+到这里，你就可以调用/login接口进行登陆操作，<br>
+参数为username和password两个，header中可以添加teminal，来标识你是浏览器、app应用、pc端应用，该字段影响下发token的有效时间<br>
+提交方式为post，contentType为application/json或application/x-www-form-urlencoded两种方式。<br>
+请求成功后会在boday中返回登陆信息（AuthorizedUserInfo这个类），并在response headers中返回token值，同时会把token写入cookie中。
 
 ### 第四步
-调用你的其他接口怎么办？
-每次请求时，将登陆返回的token值放在header中即可
-token过期了怎么办？
-token过期后一分钟内，会得到1分钟的豁免时间，也就是在过期后一分钟内，该token还是可以用的，用来保证，还没有完成的请求能够正常返回，
-同时，在这一分钟内的请求返回中，会在response headers中返回新的token，并把token写入cookie中。实际开发过程中，只要发现response headers中有返回token值，就将以前的token覆盖即可。
-你也可以写一个定时器，定时访问某个接口，用来保证你的token是最新的。
+调用你的其他接口怎么办？<br>
+每次请求时，将登陆返回的token值放在header中即可<br>
+token过期了怎么办？<br>
+token过期后一分钟内，会得到1分钟的豁免时间，也就是在过期后一分钟内，该token还是可以用的，用来保证，还没有完成的请求能够正常返回，<br>
+同时，在这一分钟内的请求返回中，会在response headers中返回新的token，并把token写入cookie中。实际开发过程中，只要发现response headers中有返回token值，就将以前的token覆盖即可。<br>
+你也可以写一个定时器，定时访问某个接口，用来保证你的token是最新的。<br>
+
+验证码的地址是多少：http://ip:port/captcha<br>
+何时需要验证码呢？
+```json
+{
+    "code": 501,
+    "data": {
+        "captchaEnabled": true
+    },
+    "desc": "验证码错误",
+    "success": false,
+    "time": 1576639456428
+}
+```
+
+当出现这个返回值，则需要验证码。
 
 
 ## 在使用过程中如果有问题，可以加qq980061784联系我，如果发现有bug请及时联系我，第一次写这玩意，希望能够帮助到你们，轻喷。
+
+
+
+
+
 
 	
 		
