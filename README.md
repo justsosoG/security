@@ -295,11 +295,6 @@ public class AuthorizedUserInfo implements AuthorizedUser {
 	}
 
 	@Override
-	public Set<String> getStringRoleNames() {
-		return null;
-	}
-
-	@Override
 	public Set<String> getStringPermissions() {
 		return null;
 	}
