@@ -49,14 +49,14 @@ public class Demo2Application {
 ```
 		
 ### 第二步
-实现4个接口
-ConfigGetService（注入配置）
-LoginResultService（登陆结果的回调，用作记登陆日志等）
-SecurityService（校验账号密码正确性）
-AuthorizedUser（登录成功后可以使用AuthorizedUser user = SecurityUtil.getCurrentUser();获得当前登录的用户信息。）
+实现4个接口<br>
+ConfigGetService（注入配置）<br>
+LoginResultService（登陆结果的回调，用作记登陆日志等）<br>
+SecurityService（校验账号密码正确性）<br>
+AuthorizedUser（登录成功后可以使用AuthorizedUser user = SecurityUtil.getCurrentUser();获得当前登录的用户信息。）<br><br>
 
-注意：1、存在数据库的密码加密方式必须为：new Password(要加密的字符串).toString()
-        这里采用的盐的加密方式，相同的密码加密的结果都不一样，所以安全性大家放心。
+注意：1、存在数据库的密码加密方式必须为：new Password(要加密的字符串).toString()<br>
+	这里采用的盐的加密方式，相同的密码加密的结果都不一样，所以安全性大家放心。<br>
 例子：
 ```java
 @Service
