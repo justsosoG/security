@@ -4,14 +4,15 @@
 ###### 1、自定义登录接口地址；
 ###### 2、自定义登录提交的参数名称；
 ###### 3、自定义免认证接口（不需要登录就可以访问的接口）；
-###### 4、是否开启验证码；
+###### 4、是否开启验证码；[使用方法](#captcha)
 ###### 5、5种验证码格式（除中文不能用，3种可选）png，gif，算术题，字体为系统随机，暂不支持字体的自定义；
 ###### 6、可以选择每次登陆都校验验证码，也可以在该账号连续登录失败多少次后自动开启验证；
 ###### 7、登录成功后采用发放令牌的方式，每次调用被保护的接口时只需在header中携带票据即可。（header中的票据字段支持自定义，默认为token）；
 ###### 8、登录事件均有回调（成功、失败、登出）；
 ###### 9、同一账号同时登陆的个数可控；（基于redis或内存的踢人机制）
 ###### 10、令牌过期后1分钟内的请求仍被允许，并且会自动发放新的令牌；
-###### 11、为进一步保护你的接口，加入接口QPS限流控制。
+###### 11、为进一步保护你的接口，加入接口QPS限流控制。[使用方法](#limit)
+
 
 # 快速开始
 [![Maven Central](https://camo.githubusercontent.com/e7cacdfa1e3b28c8d69fe23418364c62c354ba48/68747470733a2f2f6d6176656e2d6261646765732e6865726f6b756170702e636f6d2f6d6176656e2d63656e7472616c2f636f6d2e6769746875622e686f7562622f73656e7369746976652f62616467652e737667 "Maven Central")](https://mvnrepository.com/artifact/org.njgzr/security)
@@ -319,6 +320,7 @@ public class AuthorizedUserInfo implements AuthorizedUser {
 提交方式为post，contentType为application/json或application/x-www-form-urlencoded两种方式。<br>
 请求成功后会在boday中返回登陆信息（AuthorizedUserInfo这个类），并在response headers中返回token值，同时会把token写入cookie中。
 
+### <span id="captcha"></span>
 ### 第四步
 调用你的其他接口怎么办？<br>
 每次请求时，将登陆返回的token值放在header中即可<br>
@@ -343,7 +345,21 @@ token过期后一分钟内，会得到1分钟的豁免时间，也就是在过�
 
 当出现这个返回值，则需要验证码。
 
+### <span id="limit"></span>
+### 第五步
 
+接口怎么限流呢？<br>
+在需要被限流的接口上加上注解@LxRateLimit(perSecond = 10.0)<br>
+perSecond表示该接口每秒被调用的次数<br>
+注意：<br>
+	接口返回统一类型：Result
+```java
+@LxRateLimit(perSecond = 10.0)
+@RequestMapping(value="/getStr",method={RequestMethod.POST})
+public Result getString() {
+	return Result.success("hello-"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+}
+```
 ## 在使用过程中如果有问题，可以加qq980061784联系我，如果发现有bug请及时联系我，第一次写这玩意，希望能够帮助到你们，轻喷。
 
 
