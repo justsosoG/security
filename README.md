@@ -9,7 +9,7 @@
 ###### 6、可以选择每次登陆都校验验证码，也可以在该账号连续登录失败多少次后自动开启验证；
 ###### 7、登录成功后采用发放令牌的方式，每次调用被保护的接口时只需在header中携带票据即可。（header中的票据字段支持自定义，默认为token）；
 ###### 8、登录事件均有回调（成功、失败、登出）；
-###### 9、同一账号同时登陆的个数可控；
+###### 9、同一账号同时登陆的个数可控；（基于redis或内存的踢人机制）
 ###### 10、令牌过期后1分钟内的请求仍被允许，并且会自动发放新的令牌；
 ###### 11、为进一步保护你的接口，加入接口QPS限流控制。
 
@@ -49,15 +49,15 @@ public class Demo2Application {
 ```
 		
 ### 第二步
-        实现4个接口
-        ConfigGetService（注入配置）
-        LoginResultService（登陆结果的回调，用作记登陆日志等）
-        SecurityService（校验账号密码正确性）
-        AuthorizedUser（登录成功后可以使用AuthorizedUser user = SecurityUtil.getCurrentUser();获得当前登录的用户信息。）
-		
-		注意：1、存在数据库的密码加密方式必须为：new Password(要加密的字符串).toString()
-			 这里采用的盐的加密方式，相同的密码加密的结果都不一样，所以安全性大家放心。
-		例子：
+实现4个接口
+ConfigGetService（注入配置）
+LoginResultService（登陆结果的回调，用作记登陆日志等）
+SecurityService（校验账号密码正确性）
+AuthorizedUser（登录成功后可以使用AuthorizedUser user = SecurityUtil.getCurrentUser();获得当前登录的用户信息。）
+
+注意：1、存在数据库的密码加密方式必须为：new Password(要加密的字符串).toString()
+        这里采用的盐的加密方式，相同的密码加密的结果都不一样，所以安全性大家放心。
+例子：
 ```java
 @Service
 public class ServiceImpl implements ConfigGetService,LoginResultService,SecurityService{
