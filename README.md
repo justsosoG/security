@@ -12,6 +12,7 @@
 ###### 9、同一账号同时登陆的个数可控；（基于redis或内存的踢人机制）
 ###### 10、令牌过期后1分钟内的请求仍被允许，并且会自动发放新的令牌；
 ###### 11、为进一步保护你的接口，加入接口QPS限流控制。[使用方法](#limit)
+###### 12、对接口进行角色或权限的校验。[使用方法](#role)
 
 
 # 快速开始
@@ -87,6 +88,8 @@ public class ServiceImpl implements ConfigGetService,LoginResultService,Security
 			info.setOrganizationId(orgid);
 			info.setDefaultCauseId(user.getDefaultCauseId());
 			info.setAddress(user.getAddress());
+			info.setPermissions(permissions);
+			info.setRoles(roles);
 			log.info(info.toString());
 			return info;
 			// 这里的info会返回给前端，
@@ -300,16 +303,18 @@ public class AuthorizedUserInfo implements AuthorizedUser {
 	
 	private String roles;
 	
-	private Set<String> Permissions;
-
+	private Set<String> permissions;
+	
+	private Set<String> roles;
+	
 	@Override
 	public Set<String> getStringRoles() {
-		return null;
+		return roles;
 	}
 
 	@Override
 	public Set<String> getStringPermissions() {
-		return null;
+		return permissions;
 	}
 	
 }
@@ -360,6 +365,21 @@ public Result getString() {
 	return Result.success("hello-"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 }
 ```
+
+### 第六步
+如何进行接口的角色或权限校验？<br>
+首先在实现的AuthorizedUser中定义Set<String> permissions和Set<String> roles，<br>
+并在实现的SecurityService接口findByPrincipal中，对这两个字段进行赋值，最后在需要鉴权的接口上加上如下注解：<br>
+```java
+@LxRateLimit(perSecond = 10.0)
+@RequestMapping(value="/getStr",method={RequestMethod.POST})
+@RequiresRoles(value = { "role1","role2" })
+@RequiresPermissions(value = { "per1","per2" })
+public Result getString() {
+	return Result.success("hello-"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+}
+```
+
 ## 在使用过程中如果有问题，可以加qq980061784联系我，如果发现有bug请及时联系我，第一次写这玩意，希望能够帮助到你们，轻喷。
 
 
