@@ -1,5 +1,6 @@
 # 项目介绍
 该项目帮助开发者快速，简单的，使用0配置，就可以集成shiro框架。
+demo传送门：https://github.com/justsosoG/idong/tree/master
 # 特性
 ###### 1、自定义登录接口地址；
 ###### 2、自定义登录提交的参数名称；
